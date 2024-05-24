@@ -1,0 +1,36 @@
+﻿<div class="row">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-header bg-soft-success text-dark text-center d-flex">
+
+                <div class="col-11 text-center fs-3 text-dark">Kullanıcı Listesi</div>
+                <div class="col-1 fs-3"><a href="#" class="btn btn-success"><i class="uil uil-plus me-2"></i>Yeni Kayıt</a></div>
+
+            </div>
+            <div class="card-body">
+                <table id="tblUsers" class="table table-bordered table-striped table-hover"></table>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#tblUsers").DataTable({
+                ajax:'/User/GetAll',
+                columns:[
+                    {data:'id',title:'Id'},
+                    {data:'userName',title:'Kullanıcı Adı'},
+                    {data:'fullName', title:'Ad Soyad'},
+                    { data: 'id', title: 'İşlemler', render: function () {
+                            return `<a class="btn uil-trash-alt fs-6 btn-danger"></a>`;
+                    } }
+                ]
+            });
+        });
+    </script>
+}

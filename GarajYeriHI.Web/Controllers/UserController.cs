@@ -16,6 +16,18 @@ namespace GarajYeriHI.Web.Controllers
             _context = context;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult GetAll()
+        {
+            return Json(new {data=_context.Users.ToList()});
+        }
+
+
+
         public IActionResult Login()
         {
             return View();
