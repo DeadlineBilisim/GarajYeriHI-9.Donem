@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GarajYeriHI.Web", "GarajYer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GarajYeriHI.Models", "GarajYeriHI.Models\GarajYeriHI.Models.csproj", "{DD12E546-7385-4927-AE36-9A6A97732024}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GarajYeriHI.Data", "GarajYeriHI.Data\GarajYeriHI.Data.csproj", "{B4A4C645-3CFB-4B75-90FD-65D703B67D9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DD12E546-7385-4927-AE36-9A6A97732024}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD12E546-7385-4927-AE36-9A6A97732024}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD12E546-7385-4927-AE36-9A6A97732024}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4A4C645-3CFB-4B75-90FD-65D703B67D9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4A4C645-3CFB-4B75-90FD-65D703B67D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4A4C645-3CFB-4B75-90FD-65D703B67D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4A4C645-3CFB-4B75-90FD-65D703B67D9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
