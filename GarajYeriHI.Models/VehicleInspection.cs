@@ -13,5 +13,8 @@ namespace GarajYeriHI.Models
         public DateTime Validity { get; set; }
         public string? FilePath { get; set; }//rapor dosyası tutulacak
         public bool IsPassed { get; set; } = true;
+
+        public int VehicleId {  get; set; }
+        public virtual Vehicle Vehicle { get; set; }
     }
 }
