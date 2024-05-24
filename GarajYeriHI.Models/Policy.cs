@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace GarajYeriHI.Models
 {
-    public class Policy
+    public class Policy:BaseModel
     {
         public string Name { get; set; }
         public string CompanyName { get; set; }//sigorta firması
         public DateTime Validity { get; set; }//geçerlilik tarihi
+
+        public int PolicyTypeId {  get; set; }
+        public PolicyType PolicyType { get; set;}
 
     }
 }
