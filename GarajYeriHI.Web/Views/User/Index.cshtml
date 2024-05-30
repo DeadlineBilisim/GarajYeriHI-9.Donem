@@ -179,7 +179,7 @@
                         res.userName = $("#txtUsername").val();
                         res.fullName = $("#txtFullname").val();
                         res.password = $("#txtPassword").val();
-                        res.isAdmin = $("#ddlIsAdmin").val();
+                        res.isAdmin = $("#ddlIsAdmin").val()==0?false:true;
 
 
                         $.ajax({
