@@ -74,7 +74,7 @@
                  $("#modalAdd .form-control").val('');
                  $("#modalTitle").text("Yeni Kullanıcı Kaydı");
 
-                 $("#btnSave").off().click(function () {
+                 $("#btnSave").text("Kaydet").off().click(function () {
 
                      let data = {
                          appUser: {
@@ -93,6 +93,7 @@
                          success: function (res) {
 
                              $("#modalAdd").modal("hide");
+                            //dataTable'ın ajax kaynağını yeniden request etmesini önlemek için, direkt olarak datatable'ın row collectionından ilgili satırı client tarafında ekleme işlemi.
                              DataTable.row.add(res).draw();
                          }
                      })
@@ -116,7 +117,19 @@
                     {data:'id',title:'Id'},
                     {data:'userName',title:'Kullanıcı Adı'},
                     {data:'fullName', title:'Ad Soyad'},
-                    { data: 'id', title: 'İşlemler', render: function (data) {
+                    { data: 'isAdmin', title: 'isAdmin', render: function (data) {
+                        // if (data) {
+                        //     return `<i class="btn uil-check fs-6 btn-success"></i>`;
+                        // }
+                        // else {
+                        //         return `<i class="btn uil-times fs-6 btn-danger"></i>`;
+                        // }
+
+                            return data ? `<i class="btn uil-check fs-6 btn-success"></i>` : `<i class="btn uil-times fs-6 btn-danger"></i>`
+
+
+                    }},
+                    { data: 'id', title: 'İşlemler', render: function (data,type,row) {
                             return `<a onclick="deleteUser(${data},this)" class="btn uil-trash-alt fs-6 btn-danger"></a> <a onclick="updateUser(${data},this)" class="btn uil-pen fs-6 btn-success"></a>`;
                     } }
                 ]
@@ -135,7 +148,7 @@
                         id: userId
                     },
                     success: function () {
-
+                        //dataTable'ın ajax kaynağını yeniden request etmesini önlemek için, direkt olarak datatable'ın row collectionından ilgili satırı client tarafında silme işlemi.
                         let satir = $(button).parent().parent();
                         DataTable.row(satir).remove().draw();
 
@@ -144,6 +157,54 @@
             }
             
         
+        }
+
+        function updateUser(userId,button) { 
+
+            $.ajax({
+                url:'/User/GetById',
+                type:'POST',
+                data: {id:userId},
+                success: function (res) {
+
+                    $("#modalAdd").modal("show");
+                    $("#modalTitle").text("Kullanıcı Düzenle");
+                    $("#txtFullname").val(res.fullName);
+                    $("#txtUsername").val(res.userName);
+                    $("#txtPassword").val(res.password);
+                    res.isAdmin ? $("#ddlIsAdmin").val(1) : $("#ddlIsAdmin").val(0);
+
+                    $("#btnSave").text("Düzenle").off().click(function () {
+
+                        res.userName = $("#txtUsername").val();
+                        res.fullName = $("#txtFullname").val();
+                        res.password = $("#txtPassword").val();
+                        res.isAdmin = $("#ddlIsAdmin").val();
+
+
+                        $.ajax({
+                            url:'/User/Update',
+                            type:'POST',
+                            data: {
+                                appUser: res
+                            },
+                            success: function (updatedUser) {
+                                $("#modalAdd").modal("hide");
+
+                                //dataTable'ın ajax kaynağını yeniden request etmesini önlemek için, direkt olarak datatable'ın row collectionından ilgili satırı client tarafında güncelleme işlemi.
+                                let satir = $(button).parent().parent();
+                                DataTable.row(satir).data(updatedUser).draw();
+
+                            }
+                        });
+
+
+                    });
+
+                }
+
+            });
+
         }
 
 

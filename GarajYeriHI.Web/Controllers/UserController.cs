@@ -96,6 +96,12 @@ namespace GarajYeriHI.Web.Controllers
             return Ok(appUser);
         }
 
+        [HttpPost]
+        public IActionResult GetById(int id) {
+
+            return Ok(_context.Users.Find(id));
+        }
+
      
     }
 }
