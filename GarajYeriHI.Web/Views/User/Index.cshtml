@@ -6,7 +6,7 @@
 
                 <div class="col-11 text-center fs-3 text-dark">Kullanıcı Listesi</div>
                 <div class="col-1 fs-3">
-                    <a href="#" id="btnAdd" onclick=" $('#modalAdd').modal('show')" class="btn btn-success"><i class="uil uil-plus me-2"></i>Yeni Kayıt</a>
+                    <a href="#" id="btnAdd" class="btn btn-success"><i class="uil uil-plus me-2"></i>Yeni Kayıt</a>
                     </div>
 
             </div>
@@ -20,7 +20,7 @@
 </div>
 
 <div class="modal fade" id="modalAdd" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle">
@@ -30,8 +30,11 @@
                 ></button>
             </div>
             <div class="modal-body">
+                <div class="mb-3 row">
+                    <input type="text" class="form-control" id="txtFullname" placeholder="Kişinin adını giriniz">
 
-                <div class="mb3 row">
+                </div>
+                <div class="mb-3 row">
                     <input type="text" class="form-control" id="txtUsername" placeholder="Kullanıcı adı giriniz">
 
                 </div>
@@ -39,6 +42,7 @@
                     <input type="password"  id="txtPassword" class="form-control" placeholder="Lütfen şifre belirleyiniz">
                 </div>
                 <div class="mb-3 row">
+                    <label class="form-label">Admin mi?</label>
                     <select class="form-select" id="ddlIsAdmin">
                         <option value="0">Hayır</option>
                         <option value="1">Evet</option>
@@ -51,7 +55,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Kapat
                 </button>
-                <button type="button" class="btn btn-primary">Kaydet</button>
+                <button type="button" id="btnSave" class="btn btn-primary">Kaydet</button>
             </div>
         </div>
     </div>
@@ -62,14 +66,47 @@
 
 @section Scripts{
     <script>
+        var DataTable = "";
         $(document).ready(function () {
              $("#btnAdd").click(function () {
                  $("#modalAdd").modal("show");
+                 $("#btnSave").click(function () {
+
+                     let data = {
+                         appUser: {
+                             fullName:$("#txtFullname").val(),
+                             userName:$("#txtUsername").val(),
+                             password:$("#txtPassword").val(),
+                             isAdmin:$("#ddlIsAdmin").val()==0?false:true
+
+                         }
+                     }
+
+                     $.ajax({
+                         url:'/User/Add',
+                         type:'POST',
+                         data:data,
+                         success: function (res) {
+
+                             $("#modalAdd").modal("hide");
+                             DataTable.row.add(res).draw();
+                         }
+                     })
+
+
+
+
+
+                 })
+
+
+
+
            })
           
 
 
-          var DataTable=  $("#tblUsers").DataTable({
+          DataTable=  $("#tblUsers").DataTable({
                 ajax:'/User/GetAll',
                 columns:[
                     {data:'id',title:'Id'},
