@@ -23,7 +23,7 @@ namespace GarajYeriHI.Web.Controllers
 
         public IActionResult GetAll()
         {
-            return Json(new {data=_context.Users.ToList()});
+            return Json(new {data=_context.Users.Where(u=>!u.IsDeleted).ToList()});
         }
 
 
@@ -54,6 +54,46 @@ namespace GarajYeriHI.Web.Controllers
                 return RedirectToAction("Index", "Vehicle");
             }
             return View();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Login");
+        }
+
+        [HttpPost]
+        public IActionResult Add(AppUser appUser)
+        {
+            _context.Users.Add(appUser);
+            _context.SaveChanges();
+            return Ok(appUser);
+        }
+        [HttpPost]
+        public IActionResult HardDelete(AppUser appUser)
+        {
+            _context.Users.Remove(appUser);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult SoftDelete(int id)
+        {
+           AppUser appUser= _context.Users.Find(id);
+            appUser.IsDeleted = true;
+            _context.Users.Update(appUser);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult Update(AppUser appUser)
+        {
+            _context.Users.Update(appUser);
+            _context.SaveChanges();
+            return Ok(appUser);
         }
 
      

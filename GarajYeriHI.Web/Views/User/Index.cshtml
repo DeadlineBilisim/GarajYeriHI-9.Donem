@@ -17,20 +17,89 @@
     </div>
 </div>
 
+<div
+    class="modal fade"    id="modalAdd"    tabindex="-1"    data-bs-backdrop="static"    data-bs-keyboard="false"
+        role="dialog"    aria-labelledby="modalTitleId"    aria-hidden="true">
+    <div
+        class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
+        role="document"
+    >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">
+                   Yeni Kullanıcı Kaydı
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mb3 row">
+                    <input type="text" class="form-control" id="txtUsername" placeholder="Kullanıcı adı giriniz">
+
+                </div>
+                <div class="mb-3 row">
+                    <input type="password"  id="txtPassword" class="form-control" placeholder="Lütfen şifre belirleyiniz">
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 @section Scripts{
     <script>
         $(document).ready(function () {
-            $("#tblUsers").DataTable({
+          var DataTable=  $("#tblUsers").DataTable({
                 ajax:'/User/GetAll',
                 columns:[
                     {data:'id',title:'Id'},
                     {data:'userName',title:'Kullanıcı Adı'},
                     {data:'fullName', title:'Ad Soyad'},
-                    { data: 'id', title: 'İşlemler', render: function () {
-                            return `<a class="btn uil-trash-alt fs-6 btn-danger"></a>`;
+                    { data: 'id', title: 'İşlemler', render: function (data) {
+                            return `<a onclick="deleteUser(${data},this)" class="btn uil-trash-alt fs-6 btn-danger"></a>`;
                     } }
                 ]
             });
         });
+
+
+        function deleteUser(userId,button) { 
+
+            if (confirm("Silmek istediginizden emin misiniz ?")) { 
+            
+                $.ajax({
+                    url: '/User/SoftDelete',
+                    type: 'POST',
+                    data: {
+                        id: userId
+                    },
+                    success: function () {
+
+                        let satir = $(button).parent().parent();
+                        DataTable.row(satir).remove().draw();
+
+                    }
+                });
+            }
+            
+        
+        }
+
+
     </script>
 }
