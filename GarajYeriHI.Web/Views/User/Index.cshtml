@@ -24,7 +24,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle">
-                   Yeni Kullanıcı Kaydı
+                   
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                 ></button>
@@ -66,11 +66,15 @@
 
 @section Scripts{
     <script>
-        var DataTable = "";
+        let DataTable = "";
         $(document).ready(function () {
              $("#btnAdd").click(function () {
                  $("#modalAdd").modal("show");
-                 $("#btnSave").click(function () {
+                 //modal'ın içerisindeki form-control classına sahip butun elementlerin değerlerini sıfırlama komutu
+                 $("#modalAdd .form-control").val('');
+                 $("#modalTitle").text("Yeni Kullanıcı Kaydı");
+
+                 $("#btnSave").off().click(function () {
 
                      let data = {
                          appUser: {
@@ -105,7 +109,7 @@
            })
           
 
-
+           //Ödev : datatable'a her bir kullanıcının admin olup olmadıgını gösteren bir sutun daha ekleyiniz. Sutunun başlığı "isAdmin", içinde değer olarak Evet veya Hayır yazsın. Bonus : evet hayır yerine Tick ve Çarpı işareti olsun.
           DataTable=  $("#tblUsers").DataTable({
                 ajax:'/User/GetAll',
                 columns:[
@@ -113,7 +117,7 @@
                     {data:'userName',title:'Kullanıcı Adı'},
                     {data:'fullName', title:'Ad Soyad'},
                     { data: 'id', title: 'İşlemler', render: function (data) {
-                            return `<a onclick="deleteUser(${data},this)" class="btn uil-trash-alt fs-6 btn-danger"></a>`;
+                            return `<a onclick="deleteUser(${data},this)" class="btn uil-trash-alt fs-6 btn-danger"></a> <a onclick="updateUser(${data},this)" class="btn uil-pen fs-6 btn-success"></a>`;
                     } }
                 ]
             });
