@@ -111,6 +111,45 @@
         
         }
 
+        function updateVehicleProcessType(vehicleProcessTypeId, button) {
+
+            $.ajax({
+                url: '/VehicleProcessType/GetById',
+                type:'POST',
+                data: {
+                    id: vehicleProcessTypeId
+                },
+                success: (res) => {
+                    $("#txtName").val(res.name);
+                    $("#modalAdd").modal("show");
+                    $("#modalTitle").text("Güncelle");
+
+                    $("#btnSave").text("Güncelle").off().click(() => {
+                        res.name = $("#txtName").val();
+
+                        $.ajax({
+                            url: '/VehicleProcessType/Update',
+                            type:'POST',
+                            data: {
+                                vehicleProcessType:res
+                            },
+                            success: () => {
+                                let satir = $(button).parent().parent();
+                                DataTable.row(satir).data(res).draw();
+                                $("#modalAdd").modal("hide");
+                            }
+                        });
+
+
+                    });
+
+                }
+            
+            });
+
+
+        }
+
        
     </script>
 }
