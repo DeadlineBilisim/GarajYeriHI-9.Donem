@@ -51,7 +51,7 @@
         var DataTable = "";
         $(document).ready(() => {
 
-            $("#tblVehicleProcessTypes").DataTable({
+            DataTable = $("#tblVehicleProcessTypes").DataTable({
                 ajax: '/VehicleProcessType/GetAll',
                 columns: [
                     { data: 'id', title: 'ID' },
@@ -64,7 +64,32 @@
                 ]
             });
 
+            $("#btnAdd").click(() => {
+                $("#modalAdd").modal("show");
+                $("#btnSave").text("Kaydet").off().click(() => {
+                    $.ajax({
+                        url: '/VehicleProcessType/Add',
+                        type: 'POST',
+                        data: {
+                            vehicleProcessType: {
+                                name: $("#txtName").val()
+                            }
 
-        })
+                        },
+                        success: (res) => {
+
+                            DataTable.row.add(res).draw();
+                            $("#modalAdd").modal("hide");
+
+
+                        }
+                    });
+                });
+            });
+
+
+        });
+
+       
     </script>
 }
