@@ -62,7 +62,7 @@
                         <i class="fa fa-fw fa-bars"></i>
                     </button>
 
-                  
+
                 </div>
 
                 <div class="d-flex">
@@ -88,9 +88,9 @@
                         </div>
                     </div>
 
-               
 
-             
+
+
 
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="fullscreen">
@@ -117,7 +117,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                          
+
                             <a class="dropdown-item" asp-controller="User" asp-action="Logout"><i class="uil uil-sign-out-alt font-size-18 align-middle me-1 text-muted"></i> <span class="align-middle">Çıkış Yap</span></a>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
-                        @if(User.IsInRole("Admin"))
+                        @if (User.IsInRole("Admin"))
                         {
                             <li>
                                 <a asp-action="Index" asp-controller="User">
@@ -181,19 +181,16 @@
                                     <span>Tanımlamalar</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true">
+                                        <li><a asp-controller="PolicyType" asp-action="Index">Poliçe Tipleri</a></li>
 
-
-
-                                    <li><a href="layouts-dark-sidebar.html">Poliçe Tipleri</a></li>
-                                    <li><a href="layouts-compact-sidebar.html">Araç Tipleri</a></li>
-                                    <li><a href="layouts-icon-sidebar.html">İşlem Tipleri</a></li>
+                                    <li><a asp-controller="VehicleType" asp-action="Index">Araç Tipleri</a></li>
 
                                 </ul>
                             </li>
                         }
-                  
 
-                     
+
+
 
                     </ul>
                 </div>
@@ -209,7 +206,7 @@
             <div class="page-content">
                 <div class="container-fluid">
 
-              @RenderBody()
+                    @RenderBody()
 
 
                 </div> <!-- container-fluid -->
@@ -236,9 +233,6 @@
 
     </div>
     <!-- END layout-wrapper -->
-  
- 
-
     <!-- JAVASCRIPT -->
     <script src="~/assets/libs/jquery/jquery.min.js"></script>
     <script src="~/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -268,7 +262,7 @@
     <script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-    @await RenderSectionAsync("Scripts",false);
+    @await RenderSectionAsync("Scripts", false);
 
 </body>
 
