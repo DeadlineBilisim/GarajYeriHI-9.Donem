@@ -112,6 +112,41 @@
         }
 
         function updateVehicleType(vehicleTypeId, button) { 
+
+            $.ajax({
+                url:'/VehicleType/GetById',
+                type:'POST',
+                data: {
+                    id: vehicleTypeId
+                },
+                success: (res) => {
+
+                    $("#txtName").val(res.name);
+                    $("#modalAdd").modal("show");
+                    $("#btnSave").text("Güncelle").off().click(() => {
+
+                        res.name = $("#txtName").val();
+
+                        $.ajax({
+                            url:'/VehicleType/Update',
+                            type:'POST',
+                            data: {
+                                vehicleType:res
+                            },
+                            success: () => {
+
+                                $("#modalAdd").modal("hide");
+                                let satir = $(button).parent().parent();
+                                DataTable.row(satir).data(res).draw();
+                                
+                            }
+                        });
+                    });
+
+
+                }
+            });
+
         
         
         }
