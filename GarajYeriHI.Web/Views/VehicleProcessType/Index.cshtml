@@ -1,0 +1,70 @@
+﻿<div class="row">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-header bg-soft-success text-dark text-center d-flex">
+
+                <div class="col-11 text-center fs-3 text-dark">İşlem Tipleri</div>
+                <div class="col-1 fs-3">
+                    <a href="#" id="btnAdd" class="btn btn-success"><i class="uil uil-plus me-2"></i>Yeni Kayıt</a>
+                </div>
+
+            </div>
+            <div class="card-body">
+                <table id="tblVehicleProcessTypes" class="table table-bordered table-striped table-hover"></table>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="modal fade" id="modalAdd" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3 row">
+                    <input type="text" class="form-control" id="txtName" placeholder="İşlem tip adını giriniz">
+
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Kapat
+                </button>
+                <button type="button" id="btnSave" class="btn btn-primary">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var DataTable = "";
+        $(document).ready(() => {
+
+            $("#tblVehicleProcessTypes").DataTable({
+                ajax: '/VehicleProcessType/GetAll',
+                columns: [
+                    { data: 'id', title: 'ID' },
+                    { data: 'name', title: 'İşlem Tipi Adı' },
+                    {
+                        data: 'id', title: 'İşlemler', render: (data) => {
+                            return `<a title="Sil" onclick="deleteVehicleProcessType(${data},this)" class="btn uil-trash-alt fs-6 btn-danger"></a> <a onclick="updateVehicleProcessType(${data},this)" title="Düzenle" class="btn uil-pen fs-6 btn-success"></a>`
+                        }
+                    }
+                ]
+            });
+
+
+        })
+    </script>
+}
