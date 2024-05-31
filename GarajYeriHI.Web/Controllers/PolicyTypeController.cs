@@ -66,9 +66,6 @@ namespace GarajYeriHI.Web.Controllers
                 }
              
 
-
-             
-
             }
             else
             {
