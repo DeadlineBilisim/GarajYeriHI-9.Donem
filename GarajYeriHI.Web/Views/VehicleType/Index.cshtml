@@ -57,7 +57,7 @@
                     { data: 'id', title: 'ID' },
                     { data: 'name', title: 'Araç Tipi' },
                     {
-                        data: 'id', title: 'İşlemler', render: () => {
+                        data: 'id', title: 'İşlemler', render: (data) => {
 
                             return `<a onclick="deleteVehicleType(${data},this)" class="btn uil-trash-alt fs-6 btn-danger"></a> <a onclick="updateVehicleType(${data},this)" class="btn uil-pen fs-6 btn-success"></a>`;
                         }
@@ -80,7 +80,7 @@
                             }
                         },
                         success: (res) => {
-                            DataTable.row().add(res).draw();
+                            DataTable.row.add(res).draw();
                             $("#modalAdd").modal("hide");
 
                         }
@@ -90,6 +90,33 @@
 
             });
 
+
+
         });
+
+        function deleteVehicleType(vehicleTypeId, button) {
+            if (confirm("Emin Misiniz ?")) {
+                $.ajax({
+                    url:'/VehicleType/SoftDelete',
+                    type:'POST',
+                    data: {
+                        id: vehicleTypeId
+                    },
+                    success: () => {
+                        let satir = $(button).parent().parent();
+                        DataTable.row(satir).remove().draw();
+                    }
+                });
+
+            }
+        }
+
+        function updateVehicleType(vehicleTypeId, button) { 
+        
+        
+        }
+
+
+
     </script>
 }
