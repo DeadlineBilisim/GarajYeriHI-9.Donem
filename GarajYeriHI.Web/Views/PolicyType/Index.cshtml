@@ -32,7 +32,7 @@
                     <input type="text" class="form-control" id="txtName" placeholder="Poliçe tip adını giriniz">
 
                 </div>
-           
+
 
 
             </div>
@@ -46,17 +46,21 @@
     </div>
 </div>
 
-@section Scripts{
+@section Scripts {
     <script>
         var DataTable = "";
-        $(document).ready(()=> {
+        $(document).ready(() => {
 
             DataTable = $("#tblPolicyTypes").DataTable({
-                ajax:'/PolicyType/GetAll',
-                columns:[
-                    {data:'id',title:'ID'},
-                    {data:'name', title:'Poliçe Tip Adı'},
-                    {data:'id', title:'İşlemler'}
+                ajax: '/PolicyType/GetAll',
+                columns: [
+                    { data: 'id', title: 'ID' },
+                    { data: 'name', title: 'Poliçe Tip Adı' },
+                    {
+                        data: 'id', title: 'İşlemler', render: (data) => {
+                            return `<a title="Sil" onclick="deletePolicyType(${data},this)" class="btn uil-trash-alt fs-6 btn-danger"></a> <a onclick="updatePolicyType(${data},this)" title="Düzenle" class="btn uil-pen fs-6 btn-success"></a>`
+                        }
+                    }
                 ]
             });
 
@@ -65,14 +69,14 @@
                 $("#modalAdd").modal("show");
                 $("#modalTitle").text("Yeni Poliçe Tipi Ekle");
 
-                $("#btnSave").text("Kaydet").click(() => {
+                $("#btnSave").text("Kaydet").off().click(() => {
 
                     $.ajax({
-                        url:'/PolicyType/Add',
-                        type:'POST',
+                        url: '/PolicyType/Add',
+                        type: 'POST',
                         data: {
                             policyType: {
-                                name:$("#txtName").val()
+                                name: $("#txtName").val()
                             }
                         },
                         success: (res) => {
@@ -88,6 +92,66 @@
 
 
         });
+
+        function deletePolicyType(policyTypeId, button) {
+
+            if (confirm("Emin misiniz ? ")) { 
+            
+                $.ajax({
+                    url:'/PolicyType/SoftDelete',
+                    type:'POST',
+                    data: {
+                        id: policyTypeId
+                    },
+                    success: () => {
+                        let satir = $(button).parent().parent();
+                        DataTable.row(satir).remove().draw();
+
+                    }
+                });
+            
+            }
+
+        }
+
+        function updatePolicyType(policyTypeId, button) {
+
+            $.ajax({
+                url:'/PolicyType/GetById',
+                type:'POST',
+                data: {
+                    id:policyTypeId
+                },
+                success: (res) => {
+                    $("#modalAdd").modal("show");
+                    $("#modalTitle").text("Güncelle");
+                    $("#txtName").val(res.name);
+
+
+                    $("#btnSave").text("Güncelle").off().click(() => {
+
+                        res.name = $("#txtName").val();
+
+
+                        $.ajax({
+                            url:'/PolicyType/Update',
+                            type:'POST',
+                            data: {
+                                policyType:res
+                            },
+                            success:()=> {
+                                let satir = $(button).parent().parent();
+                                DataTable.row(satir).data(res).draw();
+                                $("#modalAdd").modal("hide");
+                            }
+                        });
+                    });
+
+
+                }
+            });
+
+        }
 
 
     </script>

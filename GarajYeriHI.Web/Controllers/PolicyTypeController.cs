@@ -81,6 +81,12 @@ namespace GarajYeriHI.Web.Controllers
             _context.SaveChanges();
             return Ok(policyType);
         }
+
+        [HttpPost]
+        public IActionResult GetById(int id) 
+        {
+            return Ok(_context.PolicyTypes.Find(id));
+        }
         
 
 
