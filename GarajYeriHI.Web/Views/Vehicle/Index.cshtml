@@ -1,0 +1,160 @@
+﻿<div class="row">
+    <div class="col-12">
+
+        <div class="card">
+            <div class="card-header bg-soft-success text-dark text-center d-flex">
+
+                <div class="col-11 text-center fs-3 text-dark">Araç Listesi</div>
+                <div class="col-1 fs-3">
+                    <a href="#" id="btnAdd" class="btn btn-success"><i class="uil uil-plus me-2"></i>Yeni Kayıt</a>
+                </div>
+
+            </div>
+            <div class="card-body">
+                <table id="tblVehicles" class="table table-bordered table-striped table-hover"></table>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="modal fade" id="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3 row">
+                    <input type="text" class="form-control" id="txtName" placeholder="Aracın adını giriniz">
+
+                </div>
+                <div class="mb-3 row">
+                    <input type="text" class="form-control" id="txtLicensePlate" placeholder="Plaka giriniz">
+
+                </div>
+                <div class="mb-3 row">
+                    <input type="text" id="txtOdometer" class="form-control" placeholder="Lütfen aracın kilometresini giriniz">
+                </div>
+                <div class="mb-3 row">
+                    <label class="form-label">Araç Tipi</label>
+                    <select class="form-select" id="ddlVehicleType">
+                    </select>
+                </div>
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="mb-3 row">
+                        <label class="form-label">Kullanıcı Adı</label>
+                        <select class="form-select" id="ddlUser">
+                        </select>
+                    </div>
+                }
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Kapat
+                </button>
+                <button type="button" id="btnSave" class="btn btn-primary">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var DataTable;
+        $(document).ready(() => {
+
+            DataTable = $("#tblVehicles").DataTable({
+                ajax:'/Vehicle/GetAll',
+                columns:[
+                    {data:'id', title:'ID'},
+                    {data:'name',title:'Araç Adı'},
+                    {data:'licensePlate', title:'Plaka'},
+                    {data:'odometer', title:'Km'},
+                    {data:'vehicleType.name', title:'Araç Tipi'},
+                    {data:'appUser.userName', title:'Araç Sahibi'},
+                    {data:'id',title:'İşlemler'}
+                ]
+
+            });
+
+
+
+            $("#btnAdd").click(() => {
+                $("#modal").modal("show");
+                fillVehicleTypes();
+                //true  //True
+                if ("@User.IsInRole("Admin")"=="True") {
+                    fillUsers();
+                }
+
+                $("#btnSave").click(() => {
+
+                    let vehicle = {
+                        licensePlate:$("#txtLicensePlate").val(),
+                        name:$("#txtName").val(),
+                        odometer: $("#txtOdometer").val(),
+                        vehicleTypeId:$("#ddlVehicleType").val(),
+                        appUserId:$("#ddlUser").val()
+                    }
+                    $.ajax({
+                        url:'/Vehicle/Add',
+                        type:'POST',
+                        data: {
+                            vehicle: vehicle
+                        },
+                        success: (res) => {
+                            DataTable.row.add(res).draw();
+                            $("#modal").modal("hide");
+
+                        }
+                    });
+
+
+
+                });
+
+            });
+
+
+
+
+
+        });
+
+        function fillVehicleTypes() {
+            $.ajax({
+                url: '/VehicleType/GetAll',
+                type: 'GET',
+                success: (res) => {
+                    $("#ddlVehicleType").empty();
+                    for (var item of res.data) {
+                        $("#ddlVehicleType").append(new Option(item.name, item.id));
+                    }
+
+                }
+            });
+        }
+        function fillUsers() {
+            $.ajax({
+                url: '/User/GetAll',
+                type: 'GET',
+                success: (res) => {
+                    $("#ddlUser").empty();
+                    for (var item of res.data) {
+                        $("#ddlUser").append(new Option(item.fullName, item.id));
+                    }
+
+                }
+            });
+        }
+
+
+    </script>
+}
