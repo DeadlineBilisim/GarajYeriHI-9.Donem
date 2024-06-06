@@ -60,6 +60,7 @@ namespace GarajYeriHI.Web.Controllers
         public IActionResult Update(Vehicle vehicle)
         {
             _context.Vehicles.Update(vehicle);
+          //  _context.Vehicles.First(v => v.Name == "emre");
             _context.SaveChanges();
             return Ok(vehicle);
         }

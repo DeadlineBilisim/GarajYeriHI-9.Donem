@@ -1,3 +1,4 @@
+using GarajYeriHI.Models;
 using GarajYeriHI.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,8 @@ namespace GarajYeriHI.Web.Controllers
 
         public IActionResult Privacy()
         {
+
+
             return View();
         }
 

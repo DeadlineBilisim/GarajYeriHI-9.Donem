@@ -69,7 +69,8 @@ namespace GarajYeriHI.Web.Controllers
         [HttpPost]
         public IActionResult Add(AppUser appUser)
         {
-            _context.Users.Add(appUser);
+           // _context.Users.Add(appUser);
+           _context.Set<AppUser>().Add(appUser);
             _context.SaveChanges();
             return Ok(appUser);
         }
