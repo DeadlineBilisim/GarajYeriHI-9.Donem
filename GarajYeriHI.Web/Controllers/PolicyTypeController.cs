@@ -1,5 +1,6 @@
 ﻿using GarajYeriHI.Data;
 using GarajYeriHI.Models;
+using GarajYeriHI.Repository.Shared.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,14 +9,12 @@ namespace GarajYeriHI.Web.Controllers
     [Authorize(Roles ="Admin")]
     public class PolicyTypeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+    
+        private readonly IRepository<PolicyType> _policyTypeRepository;
 
-        //Bu metotları kullanan arayüzleri yapınız. Ve Layout'ta tanımlamalar menusunun sadece Admin kullanıcılarında görünmesini sağlayınız.
-
-
-        public PolicyTypeController(ApplicationDbContext context)
+        public PolicyTypeController(IRepository<PolicyType> policyTypeRepository)
         {
-            _context = context;
+            _policyTypeRepository = policyTypeRepository;
         }
 
         public IActionResult Index()
@@ -26,50 +25,26 @@ namespace GarajYeriHI.Web.Controllers
         [HttpGet]
         public IActionResult GetAll() 
         {
-            return Json(new {data=_context.PolicyTypes.Where(pt=>!pt.IsDeleted)});
+            return Json(new {data=_policyTypeRepository.GetAll()});
         }
 
         [HttpPost]
         public IActionResult Add(PolicyType policyType)
         {
-            _context.PolicyTypes.Add(policyType);
-            _context.SaveChanges();
-            return Ok(policyType);
+           return Ok(_policyTypeRepository.Add(policyType));
         }
-        [HttpPost]
-        public IActionResult HardDelete(PolicyType policyType) 
-        {
-            _context.PolicyTypes.Remove(policyType);
-            _context.SaveChanges();
-            return Ok();
-        }
-
+      
         [HttpPost]
         public IActionResult SoftDelete(int id)
         {
-           var policyType = _context.PolicyTypes.Find(id);
-            if (policyType != null)
+          var result= _policyTypeRepository.DeleteById(id);
+            if (result != null)
             {
-                policyType.IsDeleted = true;
-
-                _context.PolicyTypes.Update(policyType);
-
-                try
-                {
-                    _context.SaveChanges();
-                    return Ok(policyType);
-                }
-                catch (Exception ex)
-                {
-                   // return StatusCode(500, ex.Message);
-                    return BadRequest(ex);
-                }
-             
-
+               return Ok(result);
             }
             else
             {
-                return BadRequest("HATA !");
+                return BadRequest("HATA - Nesne bulunamadı");
             }
           
         }
@@ -77,15 +52,13 @@ namespace GarajYeriHI.Web.Controllers
         [HttpPost]
         public IActionResult Update(PolicyType policyType) {
 
-            _context.PolicyTypes.Update(policyType);
-            _context.SaveChanges();
-            return Ok(policyType);
+            return Ok(_policyTypeRepository.Update(policyType));
         }
 
         [HttpPost]
         public IActionResult GetById(int id) 
         {
-            return Ok(_context.PolicyTypes.Find(id));
+            return Ok(_policyTypeRepository.GetById(id));
         }
         
 
