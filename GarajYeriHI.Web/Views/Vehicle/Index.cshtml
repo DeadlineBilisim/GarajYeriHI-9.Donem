@@ -79,7 +79,11 @@
                     {data:'odometer', title:'Km'},
                     {data:'vehicleType.name', title:'Araç Tipi'},
                     {data:'appUser.userName', title:'Araç Sahibi'},
-                    {data:'id',title:'İşlemler'}
+                    { data: 'id', title: 'İşlemler', render: (data) => {
+                    
+                            return `<a onclick="deleteVehicle(${data},this)" class="me-4" title="Sil" href="#"><box-icon name="trash-alt" color="red" size="sm" class="bx-burst-hover" ></box-icon></a>`;
+                    
+                    } }
                 ]
 
             });
@@ -88,13 +92,16 @@
 
             $("#btnAdd").click(() => {
                 $("#modal").modal("show");
+                $("#modal .form-control").val('');
+                $("#modal .form-select").val('');
+                $("#modalTitle").text("Yeni Araç Ekleme Formu");
                 fillVehicleTypes();
                 //true  //True
                 if ("@User.IsInRole("Admin")"=="True") {
                     fillUsers();
                 }
 
-                $("#btnSave").click(() => {
+                $("#btnSave").off().click(() => {
 
                     let vehicle = {
                         licensePlate:$("#txtLicensePlate").val(),
@@ -110,6 +117,13 @@
                             vehicle: vehicle
                         },
                         success: (res) => {
+                            res.vehicleType = {
+                                name: $("#ddlVehicleType option:selected").text()
+                            }
+                            res.appUser = {
+                                userName: $("#ddlUser option:selected").text()
+                            }
+                           
                             DataTable.row.add(res).draw();
                             $("#modal").modal("hide");
 
@@ -134,6 +148,7 @@
                 type: 'GET',
                 success: (res) => {
                     $("#ddlVehicleType").empty();
+                    $("#ddlVehicleType").append(new Option("Lütfen seçim yapınız", 0));
                     for (var item of res.data) {
                         $("#ddlVehicleType").append(new Option(item.name, item.id));
                     }
@@ -147,12 +162,31 @@
                 type: 'GET',
                 success: (res) => {
                     $("#ddlUser").empty();
+                    $("#ddlUser").append(new Option("Lütfen seçim yapınız", 0));
                     for (var item of res.data) {
                         $("#ddlUser").append(new Option(item.fullName, item.id));
                     }
 
                 }
             });
+        }
+
+        function deleteVehicle(vehicleId, button) { 
+            if (confirm("Emin misiniz ?")) { 
+
+                $.ajax({
+                    url:'/Vehicle/Delete',
+                    type:'POST',
+                    data: {
+                        id: vehicleId
+                    },
+                    success: () => {
+                        let satir = $(button).parent().parent();
+                        DataTable.row(satir).remove().draw(false);
+                    }
+                });
+
+            }
         }
 
 

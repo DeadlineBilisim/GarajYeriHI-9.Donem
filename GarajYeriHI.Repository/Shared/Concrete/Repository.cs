@@ -58,13 +58,16 @@ namespace GarajYeriHI.Repository.Shared.Concrete
 
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual IQueryable<T> GetAll()
         {
-         return  _dbSet.Where(x => !x.IsDeleted).ToList();
-            // return _context.Set<T>().Where(x=>.....);
-            //Farzedelim ki T bir  Vehicle
-            // return _context.Vehicles.Where(x=>!x.isdeleted....);
+            return _dbSet.Where(x => !x.IsDeleted);
         }
+        public IQueryable<T> GetAll(Expression<Func<T, bool>> filter)
+        {
+            return GetAll().Where(filter);
+        }
+
+
 
         public T GetById(int id)
         {
@@ -80,6 +83,7 @@ namespace GarajYeriHI.Repository.Shared.Concrete
 
         public T Update(T entity)
         {
+           
             _dbSet.Update(entity);
             Save();
             return entity;

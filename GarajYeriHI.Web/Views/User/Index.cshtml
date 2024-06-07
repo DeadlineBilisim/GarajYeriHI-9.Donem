@@ -7,7 +7,7 @@
                 <div class="col-11 text-center fs-3 text-dark">Kullanıcı Listesi</div>
                 <div class="col-1 fs-3">
                     <a href="#" id="btnAdd" class="btn btn-success"><i class="uil uil-plus me-2"></i>Yeni Kayıt</a>
-                    </div>
+                </div>
 
             </div>
             <div class="card-body">
@@ -24,10 +24,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle">
-                   
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3 row">
@@ -39,7 +37,7 @@
 
                 </div>
                 <div class="mb-3 row">
-                    <input type="password"  id="txtPassword" class="form-control" placeholder="Lütfen şifre belirleyiniz">
+                    <input type="password" id="txtPassword" class="form-control" placeholder="Lütfen şifre belirleyiniz">
                 </div>
                 <div class="mb-3 row">
                     <label class="form-label">Admin mi?</label>
@@ -64,83 +62,92 @@
 
 
 
-@section Scripts{
+@section Scripts {
     <script>
         let DataTable = "";
         $(document).ready(function () {
-             $("#btnAdd").click(function () {
-                 $("#modalAdd").modal("show");
-                 //modal'ın içerisindeki form-control classına sahip butun elementlerin değerlerini sıfırlama komutu
-                 $("#modalAdd .form-control").val('');
-                 $("#modalTitle").text("Yeni Kullanıcı Kaydı");
+            $("#btnAdd").click(function () {
+                $("#modalAdd").modal("show");
+                //modal'ın içerisindeki form-control classına sahip butun elementlerin değerlerini sıfırlama komutu
+                $("#modalAdd .form-control").val('');
+                $("#modalTitle").text("Yeni Kullanıcı Kaydı");
 
-                 $("#btnSave").text("Kaydet").off().click(function () {
+                $("#btnSave").text("Kaydet").off().click(function () {
 
-                     let data = {
-                         appUser: {
-                             fullName:$("#txtFullname").val(),
-                             userName:$("#txtUsername").val(),
-                             password:$("#txtPassword").val(),
-                             isAdmin:$("#ddlIsAdmin").val()==0?false:true
+                    let data = {
+                        appUser: {
+                            fullName: $("#txtFullname").val(),
+                            userName: $("#txtUsername").val(),
+                            password: $("#txtPassword").val(),
+                            isAdmin: $("#ddlIsAdmin").val() == 0 ? false : true
 
-                         }
-                     }
+                        }
+                    }
 
-                     $.ajax({
-                         url:'/User/Add',
-                         type:'POST',
-                         data:data,
-                         success: function (res) {
+                    $.ajax({
+                        url: '/User/Add',
+                        type: 'POST',
+                        data: data,
+                        success: function (res) {
 
-                             $("#modalAdd").modal("hide");
+                            $("#modalAdd").modal("hide");
                             //dataTable'ın ajax kaynağını yeniden request etmesini önlemek için, direkt olarak datatable'ın row collectionından ilgili satırı client tarafında ekleme işlemi.
-                             DataTable.row.add(res).draw();
-                         }
-                     })
+                            DataTable.row.add(res).draw();
+                        }
+                    })
 
 
 
 
 
-                 })
+                })
 
 
 
 
-           })
-          
+            })
 
-           //Ödev : datatable'a her bir kullanıcının admin olup olmadıgını gösteren bir sutun daha ekleyiniz. Sutunun başlığı "isAdmin", içinde değer olarak Evet veya Hayır yazsın. Bonus : evet hayır yerine Tick ve Çarpı işareti olsun.
-          DataTable=  $("#tblUsers").DataTable({
-                ajax:'/User/GetAll',
-                columns:[
-                    {data:'id',title:'Id'},
-                    {data:'userName',title:'Kullanıcı Adı'},
-                    {data:'fullName', title:'Ad Soyad'},
-                    { data: 'isAdmin', title: 'isAdmin', render: function (data) {
-                        // if (data) {
-                        //     return `<i class="btn uil-check fs-6 btn-success"></i>`;
-                        // }
-                        // else {
-                        //         return `<i class="btn uil-times fs-6 btn-danger"></i>`;
-                        // }
+
+            //Ödev : datatable'a her bir kullanıcının admin olup olmadıgını gösteren bir sutun daha ekleyiniz. Sutunun başlığı "isAdmin", içinde değer olarak Evet veya Hayır yazsın. Bonus : evet hayır yerine Tick ve Çarpı işareti olsun.
+            DataTable = $("#tblUsers").DataTable({
+                ajax: '/User/GetAll',
+                columns: [
+                    { data: 'id', title: 'Id' },
+                    { data: 'userName', title: 'Kullanıcı Adı' },
+                    {
+                        data: 'vehicles', title: 'Araç Sayısı', render: (data) => {
+                            return data.length;
+                        }
+                    },
+                            { data: 'fullName', title: 'Ad Soyad' },
+                    {
+                        data: 'isAdmin', title: 'isAdmin', render: function (data) {
+                            // if (data) {
+                            //     return `<i class="btn uil-check fs-6 btn-success"></i>`;
+                            // }
+                            // else {
+                            //         return `<i class="btn uil-times fs-6 btn-danger"></i>`;
+                            // }
 
                             return data ? `<i class="btn uil-check fs-6 btn-success"></i>` : `<i class="btn uil-times fs-6 btn-danger"></i>`
 
 
-                    }},
-                    { data: 'id', title: 'İşlemler', render: function (data,type,row) {
+                        }
+                    },
+                    {
+                        data: 'id', title: 'İşlemler', render: function (data, type, row) {
                             return `<a onclick="deleteUser(${data},this)" class="btn uil-trash-alt fs-6 btn-danger"></a> <a onclick="updateUser(${data},this)" class="btn uil-pen fs-6 btn-success"></a>`;
-                    } }
+                        }
+                    }
                 ]
             });
         });
 
 
-        function deleteUser(userId,button) { 
+        function deleteUser(userId, button) {
 
-            if (confirm("Silmek istediginizden emin misiniz ?")) { 
-            
+            if (confirm("Silmek istediginizden emin misiniz ?")) {
+
                 $.ajax({
                     url: '/User/SoftDelete',
                     type: 'POST',
@@ -155,16 +162,16 @@
                     }
                 });
             }
-            
-        
+
+
         }
 
-        function updateUser(userId,button) { 
+        function updateUser(userId, button) {
 
             $.ajax({
-                url:'/User/GetById',
-                type:'POST',
-                data: {id:userId},
+                url: '/User/GetById',
+                type: 'POST',
+                data: { id: userId },
                 success: function (res) {
 
                     $("#modalAdd").modal("show");
@@ -179,12 +186,12 @@
                         res.userName = $("#txtUsername").val();
                         res.fullName = $("#txtFullname").val();
                         res.password = $("#txtPassword").val();
-                        res.isAdmin = $("#ddlIsAdmin").val()==0?false:true;
+                        res.isAdmin = $("#ddlIsAdmin").val() == 0 ? false : true;
 
 
                         $.ajax({
-                            url:'/User/Update',
-                            type:'POST',
+                            url: '/User/Update',
+                            type: 'POST',
                             data: {
                                 appUser: res
                             },

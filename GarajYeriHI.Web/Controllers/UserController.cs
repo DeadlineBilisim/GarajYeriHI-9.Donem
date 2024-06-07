@@ -1,5 +1,6 @@
 ﻿using GarajYeriHI.Data;
 using GarajYeriHI.Models;
+using GarajYeriHI.Repository.Abstract;
 using GarajYeriHI.Repository.Shared.Abstract;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -10,21 +11,23 @@ namespace GarajYeriHI.Web.Controllers
 {
     public class UserController : Controller
     {
-       private readonly IRepository<AppUser> _appUserRepository;
+       private readonly IUserRepository _appUserRepository;
 
-        public UserController(IRepository<AppUser> appUserRepository)
+        public UserController(IUserRepository appUserRepository)
         {
             _appUserRepository = appUserRepository;
         }
 
         public IActionResult Index()
         {
+            
             return View();
         }
 
         public IActionResult GetAll()
         {
-            return Json(new {data=_appUserRepository.GetAll()});
+            var result = _appUserRepository.GetAll();
+            return Json(new { data = result });
         }
 
 

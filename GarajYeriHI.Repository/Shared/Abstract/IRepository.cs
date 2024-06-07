@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GarajYeriHI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace GarajYeriHI.Repository.Shared.Abstract
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : BaseModel
     {
-        IEnumerable<T> GetAll();
+        IQueryable<T> GetAll();
+        IQueryable<T> GetAll(Expression<Func<T, bool>> filter);
         T GetById(int id);
 
         T GetFirstOrDefault(Expression<Func<T, bool>> filter);

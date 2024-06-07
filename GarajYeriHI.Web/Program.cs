@@ -1,5 +1,7 @@
 using GarajYeriHI.Data;
 using GarajYeriHI.Models;
+using GarajYeriHI.Repository.Abstract;
+using GarajYeriHI.Repository.Concrete;
 using GarajYeriHI.Repository.Shared.Abstract;
 using GarajYeriHI.Repository.Shared.Concrete;
 using GarajYeriHI.Web.Controllers;
@@ -14,6 +16,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options=>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
