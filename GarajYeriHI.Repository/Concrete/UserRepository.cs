@@ -13,10 +13,12 @@ namespace GarajYeriHI.Repository.Concrete
     public class UserRepository:Repository<AppUser>,IUserRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly IVehicleRepository _vehicleRepository;
 
-        public UserRepository(ApplicationDbContext context):base(context)
+        public UserRepository(ApplicationDbContext context, IVehicleRepository vehicleRepository) : base(context)
         {
             _context = context;
+            _vehicleRepository = vehicleRepository;
         }
 
         public override IQueryable<AppUser> GetAll()
@@ -30,5 +32,19 @@ namespace GarajYeriHI.Repository.Concrete
                Vehicles = x.Vehicles
            });
         }
+
+        public override AppUser DeleteById(int id)
+        {
+         
+            _vehicleRepository.DeleteVehiclesByUserId(id);
+           return base.DeleteById(id);
+
+
+
+
+
+        }
+
+
     }
 }

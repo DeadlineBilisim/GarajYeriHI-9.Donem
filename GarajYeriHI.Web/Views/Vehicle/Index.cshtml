@@ -80,8 +80,8 @@
                     {data:'vehicleType.name', title:'Araç Tipi'},
                     {data:'appUser.userName', title:'Araç Sahibi'},
                     { data: 'id', title: 'İşlemler', render: (data) => {
-                    
-                            return `<a onclick="deleteVehicle(${data},this)" class="me-4" title="Sil" href="#"><box-icon name="trash-alt" color="red" size="sm" class="bx-burst-hover" ></box-icon></a>`;
+
+                            return `<a onclick="deleteVehicle(${data},this)" class="me-4" title="Sil" href="#"><box-icon name="trash-alt" color="red" size="sm" class="bx-burst-hover" ></box-icon></a> <a onclick="updateVehicle(${data},this)" title="Düzenle" href="#"><box-icon class="bx-burst-hover" name="pencil" color="blue" size="sm" ></box-icon></a>`;
                     
                     } }
                 ]
@@ -187,6 +187,34 @@
                 });
 
             }
+        }
+
+        function updateVehicle(vehicleId, button) {
+            fillVehicleTypes();
+            fillUsers();
+            $.ajax({
+                url:'/Vehicle/GetById',
+                type:'POST',
+                data: {
+                    id: vehicleId
+                },
+                success: (res) => {
+                   
+                    $("#modal").modal("show");
+                    $("#modalTitle").text("Araç Güncelleme Formu");
+                    $("#txtName").val(res.name);
+                    $("#txtLicensePlate").val(res.licensePlate);
+                    $("#txtOdometer").val(res.odometer);
+                    $("#ddlVehicleType").val(res.vehicleTypeId);
+                    console.log("seçili olması gereken user ıd="+res.appUserId);
+                    $("#ddlUser option[value="+parseInt(res.appUserId)+"]").attr("selected", true);
+                   
+
+
+                }
+            });
+
+
         }
 
 

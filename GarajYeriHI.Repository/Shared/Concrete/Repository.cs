@@ -33,7 +33,7 @@ namespace GarajYeriHI.Repository.Shared.Concrete
          //   _context.Set<T>().Add(entity);
         }
 
-        public T Delete(T entity)
+        public  T Delete(T entity)
         {
             _dbSet.Remove(entity);
             Save();
@@ -41,7 +41,7 @@ namespace GarajYeriHI.Repository.Shared.Concrete
           
         }
 
-        public T DeleteById(int id)
+        public virtual T DeleteById(int id)
         {
            T entity= _dbSet.Find(id);
             if (entity != null)

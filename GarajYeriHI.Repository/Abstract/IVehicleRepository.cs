@@ -12,5 +12,7 @@ namespace GarajYeriHI.Repository.Abstract
     {
         IEnumerable<Vehicle> GetAll(bool isAdmin,int userId);
 
+        void DeleteVehiclesByUserId(int userId);
+
     }
 }

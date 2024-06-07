@@ -2,6 +2,7 @@
 using GarajYeriHI.Models;
 using GarajYeriHI.Repository.Abstract;
 using GarajYeriHI.Repository.Shared.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,15 @@ namespace GarajYeriHI.Repository.Concrete
         public VehicleRepository(ApplicationDbContext context):base(context)
         {
             _context = context;
+        }
+
+        public void DeleteVehiclesByUserId(int userId)
+        {
+            base.GetAll().Where(x => x.AppUserId == userId).ForEachAsync(x =>
+            {
+                x.IsDeleted = true;
+            });
+            base.Save();
         }
 
         public IEnumerable<Vehicle> GetAll(bool isAdmin,int userId)
