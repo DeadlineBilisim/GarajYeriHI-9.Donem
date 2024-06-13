@@ -39,10 +39,6 @@ namespace GarajYeriHI.Repository.Concrete
             _vehicleRepository.DeleteVehiclesByUserId(id);
            return base.DeleteById(id);
 
-
-
-
-
         }
 
 

@@ -35,6 +35,7 @@ namespace GarajYeriHI.Repository.Shared.Concrete
 
         public  T Delete(T entity)
         {
+
             _dbSet.Remove(entity);
             Save();
             return entity;
@@ -55,6 +56,7 @@ namespace GarajYeriHI.Repository.Shared.Concrete
                
             }
             return entity;
+          
 
         }
 
@@ -94,6 +96,11 @@ namespace GarajYeriHI.Repository.Shared.Concrete
         public void Save()
         {
           _context.SaveChanges();
+        }
+
+        public T GetByGuid(Guid id)
+        {
+          return GetFirstOrDefault(x => x.Guid == id);
         }
     }
 }

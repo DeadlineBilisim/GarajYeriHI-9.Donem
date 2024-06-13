@@ -35,17 +35,10 @@ namespace GarajYeriHI.Web.Controllers
         }
       
         [HttpPost]
-        public IActionResult SoftDelete(int id)
+        public async Task<IActionResult> SoftDelete(int id)
         {
-          var result= _policyTypeRepository.DeleteById(id);
-            if (result != null)
-            {
-               return Ok(result);
-            }
-            else
-            {
-                return BadRequest("HATA - Nesne bulunamadı");
-            }
+         
+            return Ok(_policyTypeRepository.DeleteById(id) is object);
           
         }
 

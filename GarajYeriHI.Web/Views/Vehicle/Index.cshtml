@@ -1,4 +1,5 @@
-﻿<div class="row">
+﻿@using System.Security.Claims
+<div class="row">
     <div class="col-12">
 
         <div class="card">
@@ -97,18 +98,28 @@
                 $("#modalTitle").text("Yeni Araç Ekleme Formu");
                 fillVehicleTypes();
                 //true  //True
+                let appUserId;
                 if ("@User.IsInRole("Admin")"=="True") {
                     fillUsers();
+
                 }
 
                 $("#btnSave").off().click(() => {
+                    if ("@User.IsInRole("Admin")" == "True") {
+                        appUserId = $("#ddlUser").val();
+
+                    }
+                    else {
+                        appUserId = parseInt( @User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    }
+                   
 
                     let vehicle = {
                         licensePlate:$("#txtLicensePlate").val(),
                         name:$("#txtName").val(),
                         odometer: $("#txtOdometer").val(),
                         vehicleTypeId:$("#ddlVehicleType").val(),
-                        appUserId:$("#ddlUser").val()
+                        appUserId: appUserId
                     }
                     $.ajax({
                         url:'/Vehicle/Add',

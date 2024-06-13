@@ -13,6 +13,7 @@ namespace GarajYeriHI.Repository.Shared.Abstract
         IQueryable<T> GetAll();
         IQueryable<T> GetAll(Expression<Func<T, bool>> filter);
         T GetById(int id);
+        T GetByGuid(Guid id);
 
         T GetFirstOrDefault(Expression<Func<T, bool>> filter);
 

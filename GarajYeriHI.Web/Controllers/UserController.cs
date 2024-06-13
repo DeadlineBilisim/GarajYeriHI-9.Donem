@@ -26,8 +26,8 @@ namespace GarajYeriHI.Web.Controllers
 
         public IActionResult GetAll()
         {
-            var result = _appUserRepository.GetAll();
-            return Json(new { data = result });
+          
+            return Json(new { data = _appUserRepository.GetAll() });
         }
 
 
@@ -40,6 +40,9 @@ namespace GarajYeriHI.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(AppUser appUser)
         {
+
+            //_userService.Login(appUser);
+
             AppUser user = _appUserRepository.GetFirstOrDefault(u => u.UserName == appUser.UserName && u.Password == appUser.Password);
             if(user!=null)
             {
@@ -80,8 +83,8 @@ namespace GarajYeriHI.Web.Controllers
         [HttpPost]
         public IActionResult SoftDelete(int id)
         {
-            _appUserRepository.DeleteById(id);
-            return Ok();
+          
+            return Ok(_appUserRepository.DeleteById(id));
         }
 
         [HttpPost]

@@ -49,7 +49,15 @@ namespace GarajYeriHI.Repository.Concrete
             else
             {
               
-                return _context.Vehicles.Where(v => !v.IsDeleted && v.AppUserId == userId);
+                return _context.Vehicles.Where(v => !v.IsDeleted && v.AppUserId == userId).Select(v => new Vehicle
+                {
+                    Name = v.Name,
+                    Odometer = v.Odometer,
+                    Id = v.Id,
+                    LicensePlate = v.LicensePlate,
+                    VehicleType = v.VehicleType,
+                    AppUser = v.AppUser
+                });
             }
         }
     }

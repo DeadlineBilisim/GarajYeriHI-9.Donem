@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GarajYeriHI.Models", "Garaj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GarajYeriHI.Data", "GarajYeriHI.Data\GarajYeriHI.Data.csproj", "{B4A4C645-3CFB-4B75-90FD-65D703B67D9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GarajYeriHI.Repository", "GarajYeriHI.Repository\GarajYeriHI.Repository.csproj", "{94BA4C63-6425-42FA-9588-B915630B78A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GarajYeriHI.Repository", "GarajYeriHI.Repository\GarajYeriHI.Repository.csproj", "{94BA4C63-6425-42FA-9588-B915630B78A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
