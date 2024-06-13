@@ -23,6 +23,8 @@ namespace GarajYeriHI.Models
         public virtual ICollection<VehicleInspection> VehicleInspections { get; set;} = new List<VehicleInspection>();
 
         public virtual ICollection<Policy> VehiclePolicies { get; set; }=new List<Policy>();
+
+    
         
     }
 }

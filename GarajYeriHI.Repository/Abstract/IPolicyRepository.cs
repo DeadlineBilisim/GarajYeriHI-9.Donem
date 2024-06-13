@@ -8,12 +8,8 @@ using System.Threading.Tasks;
 
 namespace GarajYeriHI.Repository.Abstract
 {
-    public interface IVehicleRepository:IRepository<Vehicle>
+    public interface IPolicyRepository:IRepository<Policy>
     {
-        IEnumerable<Vehicle> GetAll(bool isAdmin,int userId);
-
-        void DeleteVehiclesByUserId(int userId);
-     
-
+        IEnumerable<Policy> GetAll(Guid vehicleId);
     }
 }

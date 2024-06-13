@@ -28,6 +28,7 @@ namespace GarajYeriHI.Data
         public virtual DbSet<VehicleProcess> VehicleProcesses { get; set; }
         public virtual DbSet<VehicleProcessType> VehicleProcessTypes { get; set;}
         public virtual DbSet<VehicleType> VehicleTypes { get; set; }
+     
 
         //FLUENT API
         protected override void OnModelCreating(ModelBuilder modelBuilder)

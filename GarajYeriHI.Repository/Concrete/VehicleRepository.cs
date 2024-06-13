@@ -14,11 +14,11 @@ namespace GarajYeriHI.Repository.Concrete
 {
     public class VehicleRepository: Repository<Vehicle>,IVehicleRepository
     {
-        private readonly ApplicationDbContext _context;
+      
 
         public VehicleRepository(ApplicationDbContext context):base(context)
         {
-            _context = context;
+          
         }
 
         public void DeleteVehiclesByUserId(int userId)
@@ -35,7 +35,7 @@ namespace GarajYeriHI.Repository.Concrete
 
             if (isAdmin)
             {
-                var result = _context.Vehicles.Where(v => !v.IsDeleted).Select(v => new Vehicle
+                var result = base.GetAll().Select(v => new Vehicle
                 {
                     Name = v.Name,
                     Odometer = v.Odometer,
@@ -49,7 +49,7 @@ namespace GarajYeriHI.Repository.Concrete
             else
             {
               
-                return _context.Vehicles.Where(v => !v.IsDeleted && v.AppUserId == userId).Select(v => new Vehicle
+                return base.GetAll(v=>v.AppUserId == userId).Select(v => new Vehicle
                 {
                     Name = v.Name,
                     Odometer = v.Odometer,
@@ -57,8 +57,13 @@ namespace GarajYeriHI.Repository.Concrete
                     LicensePlate = v.LicensePlate,
                     VehicleType = v.VehicleType,
                     AppUser = v.AppUser
+                   
                 });
             }
         }
+
+     
+
+    
     }
 }

@@ -23,13 +23,25 @@ namespace GarajYeriHI.Web.Controllers
 
         //[HttpPost]
         //public IActionResult Add(List<VehiclePhoto> vehiclePhotos) {
-        
 
 
-        
+
+
         //}
 
+        [HttpPost]
+        public IActionResult Delete(VehiclePhoto vehiclePhoto)
+        {
+           return Ok( _vehiclePhotoRepo.Delete(vehiclePhoto));
+            
+        }
 
+        [HttpPost]
+        public IActionResult Update(VehiclePhoto vehiclePhoto)
+        {
+            return Ok(_vehiclePhotoRepo.Update(vehiclePhoto));
+        }
+       
 
     }
 }
