@@ -4,6 +4,7 @@ using GarajYeriHI.Models;
 using GarajYeriHI.Repository.Shared.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace GarajYeriHI.Web.Controllers
 {
@@ -20,6 +21,8 @@ namespace GarajYeriHI.Web.Controllers
 
         public IActionResult Index()
         {
+
+         
             return View();
         }
 

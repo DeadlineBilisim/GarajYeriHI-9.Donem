@@ -1,11 +1,11 @@
 using GarajYeriHI.Business.Abstract;
 using GarajYeriHI.Business.Concrete;
+using GarajYeriHI.Business;
 using GarajYeriHI.Data;
 using GarajYeriHI.Models;
-using GarajYeriHI.Repository.Abstract;
-using GarajYeriHI.Repository.Concrete;
 using GarajYeriHI.Repository.Shared.Abstract;
 using GarajYeriHI.Repository.Shared.Concrete;
+using GarajYeriHI.Web;
 using GarajYeriHI.Web.Controllers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +17,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options=>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IVehiclePhotoRepository, VehiclePhotoRepository>();
-builder.Services.AddScoped<IPolicyTypeService, PolicyTypeService>();
-builder.Services.AddScoped<IVehicleTypeService, VehicleTypeService>();
+builder.Services.AddBusinessDI();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
