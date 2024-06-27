@@ -1,4 +1,5 @@
-﻿using GarajYeriHI.Data;
+﻿using GarajYeriHI.Business.Abstract;
+using GarajYeriHI.Data;
 using GarajYeriHI.Models;
 using GarajYeriHI.Repository.Abstract;
 using Microsoft.AspNetCore.Authorization;
@@ -12,11 +13,11 @@ namespace GarajYeriHI.Web.Controllers
     public class VehicleController : Controller
     {
       
-        private readonly IVehicleRepository _vehicleRepository;
+       private readonly IVehicleService _vehicleService;
 
-        public VehicleController(IVehicleRepository vehicleRepository)
+        public VehicleController(IVehicleService vehicleService)
         {
-            _vehicleRepository = vehicleRepository;
+            _vehicleService = vehicleService;
         }
 
         public IActionResult Index()
@@ -31,32 +32,32 @@ namespace GarajYeriHI.Web.Controllers
             bool isAdmin = User.IsInRole("Admin");
             int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-          return Json(new { data = _vehicleRepository.GetAll(isAdmin,userId)  });
+          return Json(new { data = _vehicleService.GetAll(isAdmin,userId)  });
 
         }
 
         [HttpPost]
         public IActionResult Add(Vehicle vehicle)
         {
-            return Ok(_vehicleRepository.Add(vehicle));
+            return Ok(_vehicleService.Add(vehicle));
 
         }
         [HttpPost]
         public IActionResult Update(Vehicle vehicle)
         {
-            return Ok(_vehicleRepository.Update(vehicle));
+            return Ok(_vehicleService.Update(vehicle));
         }
         [HttpPost]
         public IActionResult Delete(int id)
         {
-         _vehicleRepository.DeleteById(id);
+            _vehicleService.Delete(id);
             return Ok();
         }
 
         [HttpPost]
         public IActionResult GetById(int id)
         {
-            return Ok(_vehicleRepository.GetById(id));
+            return Ok(_vehicleService.GetById(id));
         }
 
 

@@ -12,12 +12,12 @@ namespace GarajYeriHI.Business.Concrete
     public class VehiclePhotoService : IVehiclePhotoService
     {
         private readonly IRepository<VehiclePhoto> _vehiclePhotoRepository;
-        private readonly IRepository<Vehicle> _vehicleRepository;
+      private readonly IVehicleService _vehicleService;
 
-        public VehiclePhotoService(IRepository<VehiclePhoto> vehiclePhotoRepository, IRepository<Vehicle> vehicleRepository)
+        public VehiclePhotoService(IRepository<VehiclePhoto> vehiclePhotoRepository, IVehicleService vehicleService)
         {
             _vehiclePhotoRepository = vehiclePhotoRepository;
-            _vehicleRepository = vehicleRepository;
+            _vehicleService = vehicleService;
         }
 
         public bool Delete(int id)
@@ -28,7 +28,7 @@ namespace GarajYeriHI.Business.Concrete
 
         public IQueryable<VehiclePhoto> GetAll(Guid guid)
         {
-          int vehicleId=  _vehicleRepository.GetByGuid(guid).Id;
+          int vehicleId=  _vehicleService.GetByGuid(guid).Id;
             return _vehiclePhotoRepository.GetAll(vp => vp.VehicleId == vehicleId);
         }
 
