@@ -74,6 +74,8 @@ namespace GarajYeriHI.Business.Concrete
 
         }
 
+   
+
         public Vehicle GetByGuid(Guid guid)
         {
            return _vehicleRepository.GetByGuid(guid);

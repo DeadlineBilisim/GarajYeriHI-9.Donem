@@ -1,7 +1,6 @@
 ﻿using GarajYeriHI.Business.Abstract;
 using GarajYeriHI.Data;
 using GarajYeriHI.Models;
-using GarajYeriHI.Repository.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

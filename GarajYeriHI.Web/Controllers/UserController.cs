@@ -52,6 +52,8 @@ namespace GarajYeriHI.Web.Controllers
                 claims.Add(new Claim(ClaimTypes.Name,user.UserName));
                 claims.Add(new Claim(ClaimTypes.GivenName, user.FullName));
                 claims.Add(new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin" : "User"));
+                claims.Add(new Claim(ClaimTypes.Hash,user.Guid.ToString()));
+
                 ClaimsIdentity identity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
 
               await  HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
