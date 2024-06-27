@@ -1,4 +1,5 @@
-﻿using GarajYeriHI.Data;
+﻿using GarajYeriHI.Business.Abstract;
+using GarajYeriHI.Data;
 using GarajYeriHI.Models;
 using GarajYeriHI.Repository.Abstract;
 using GarajYeriHI.Repository.Shared.Abstract;
@@ -11,11 +12,11 @@ namespace GarajYeriHI.Web.Controllers
 {
     public class UserController : Controller
     {
-       private readonly IUserRepository _appUserRepository;
+        private readonly IUserService _userService;
 
-        public UserController(IUserRepository appUserRepository)
+        public UserController(IUserService userService)
         {
-            _appUserRepository = appUserRepository;
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -27,7 +28,7 @@ namespace GarajYeriHI.Web.Controllers
         public IActionResult GetAll()
         {
           
-            return Json(new { data = _appUserRepository.GetAll() });
+            return Json(new { data = _userService.GetAll() });
         }
 
 
@@ -43,7 +44,7 @@ namespace GarajYeriHI.Web.Controllers
 
             //_userService.Login(appUser);
 
-            AppUser user = _appUserRepository.GetFirstOrDefault(u => u.UserName == appUser.UserName && u.Password == appUser.Password);
+            AppUser user = _userService.CheckLogin(appUser.UserName,appUser.Password);
             if(user!=null)
             {
                 List<Claim> claims = new List<Claim>();
@@ -76,7 +77,7 @@ namespace GarajYeriHI.Web.Controllers
         [HttpPost]
         public IActionResult Add(AppUser appUser)
         {
-            return Ok(_appUserRepository.Add(appUser));
+            return Ok(_userService.Add(appUser));
         }
        
 
@@ -84,20 +85,20 @@ namespace GarajYeriHI.Web.Controllers
         public IActionResult SoftDelete(int id)
         {
           
-            return Ok(_appUserRepository.DeleteById(id));
+            return Ok(_userService.Delete(id));
         }
 
         [HttpPost]
         public IActionResult Update(AppUser appUser)
         {
          
-            return Ok(_appUserRepository.Update(appUser));
+            return Ok(_userService.Update(appUser));
         }
 
         [HttpPost]
         public IActionResult GetById(int id) {
 
-            return Ok(_appUserRepository.GetById(id));
+            return Ok(_userService.GetById(id));
         }
 
      

@@ -12,7 +12,7 @@ namespace GarajYeriHI.Business.Concrete
     public class VehiclePhotoService : IVehiclePhotoService
     {
         private readonly IRepository<VehiclePhoto> _vehiclePhotoRepository;
-      private readonly IVehicleService _vehicleService;
+        private readonly IVehicleService _vehicleService;
 
         public VehiclePhotoService(IRepository<VehiclePhoto> vehiclePhotoRepository, IVehicleService vehicleService)
         {
