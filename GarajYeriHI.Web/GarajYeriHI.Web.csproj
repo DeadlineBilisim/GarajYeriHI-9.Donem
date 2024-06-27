@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GarajYeriHI.Business\GarajYeriHI.Business.csproj" />
     <ProjectReference Include="..\GarajYeriHI.Data\GarajYeriHI.Data.csproj" />
     <ProjectReference Include="..\GarajYeriHI.Repository\GarajYeriHI.Repository.csproj" />
   </ItemGroup>

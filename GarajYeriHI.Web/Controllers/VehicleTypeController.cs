@@ -1,4 +1,5 @@
-﻿using GarajYeriHI.Models;
+﻿using GarajYeriHI.Business.Abstract;
+using GarajYeriHI.Models;
 using GarajYeriHI.Repository.Shared.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,11 +7,11 @@ namespace GarajYeriHI.Web.Controllers
 {
     public class VehicleTypeController : Controller
     {
-        private readonly IRepository<VehicleType> _vehicleTypeRepo;
+        private readonly IVehicleTypeService _vehicleTypeService;
 
-        public VehicleTypeController(IRepository<VehicleType> vehicleTypeRepo)
+        public VehicleTypeController(IVehicleTypeService vehicleTypeService)
         {
-            _vehicleTypeRepo = vehicleTypeRepo;
+            _vehicleTypeService = vehicleTypeService;
         }
 
         public IActionResult Index()
@@ -20,49 +21,37 @@ namespace GarajYeriHI.Web.Controllers
 
         public IActionResult GetAll()
         {
-            //   return Json(new { data = _context.VehicleTypes.Where(vt => !vt.IsDeleted) });
-            return Json(new { data = _vehicleTypeRepo.GetAll() });
+           return Json(new { data = _vehicleTypeService.GetAll() });
         }
 
         [HttpPost]
         public IActionResult Add(VehicleType vehicleType)
         {
-            _vehicleTypeRepo.Add(vehicleType);
-            _vehicleTypeRepo.Save();
-            //_context.VehicleTypes.Add(vehicleType);
-            //_context.SaveChanges();
-            return Ok(vehicleType);
+           
+            return Ok(_vehicleTypeService.Add(vehicleType));
         }
 
 
         [HttpPost]
         public IActionResult SoftDelete(int id)
         {
-            _vehicleTypeRepo.DeleteById(id);
-            _vehicleTypeRepo.Save();
-
-            //var vehicleType = _context.VehicleTypes.Find(id);
-            //vehicleType.IsDeleted = true;
-            //vehicleType.DateDeleted= DateTime.Now;
-            //_context.VehicleTypes.Update(vehicleType);
-            //_context.SaveChanges();
-            return Ok();
+          
+        
+            return Ok(_vehicleTypeService.Delete(id));
         }
 
         [HttpPost]
         public IActionResult Update(VehicleType vehicleType) 
         {
-            _vehicleTypeRepo.Update(vehicleType);
-            _vehicleTypeRepo.Save();
-            //_context.VehicleTypes.Update(vehicleType);
-            //_context.SaveChanges();
-            return Ok(vehicleType);
+           
+         
+            return Ok(_vehicleTypeService.Update(vehicleType));
         }
 
         [HttpPost]
         public IActionResult GetById(int id)
         {
-            return Ok(_vehicleTypeRepo.GetById(id));
+            return Ok(_vehicleTypeService.GetById(id));
         }
     }
 }

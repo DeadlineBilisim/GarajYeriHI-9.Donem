@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GarajYeriHI.Data", "GarajYe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GarajYeriHI.Repository", "GarajYeriHI.Repository\GarajYeriHI.Repository.csproj", "{94BA4C63-6425-42FA-9588-B915630B78A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GarajYeriHI.Business", "GarajYeriHI.Business\GarajYeriHI.Business.csproj", "{ACECAF6C-8190-4251-BFA0-BE5F4F691354}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{94BA4C63-6425-42FA-9588-B915630B78A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94BA4C63-6425-42FA-9588-B915630B78A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94BA4C63-6425-42FA-9588-B915630B78A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACECAF6C-8190-4251-BFA0-BE5F4F691354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACECAF6C-8190-4251-BFA0-BE5F4F691354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACECAF6C-8190-4251-BFA0-BE5F4F691354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACECAF6C-8190-4251-BFA0-BE5F4F691354}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

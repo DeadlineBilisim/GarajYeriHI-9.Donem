@@ -1,3 +1,5 @@
+using GarajYeriHI.Business.Abstract;
+using GarajYeriHI.Business.Concrete;
 using GarajYeriHI.Data;
 using GarajYeriHI.Models;
 using GarajYeriHI.Repository.Abstract;
@@ -19,6 +21,8 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVehiclePhotoRepository, VehiclePhotoRepository>();
+builder.Services.AddScoped<IPolicyTypeService, PolicyTypeService>();
+builder.Services.AddScoped<IVehicleTypeService, VehicleTypeService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {

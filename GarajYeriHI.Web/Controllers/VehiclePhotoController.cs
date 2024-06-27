@@ -1,4 +1,5 @@
-﻿using GarajYeriHI.Models;
+﻿using GarajYeriHI.Business.Abstract;
+using GarajYeriHI.Models;
 using GarajYeriHI.Repository.Abstract;
 using GarajYeriHI.Repository.Shared.Abstract;
 using Microsoft.AspNetCore.Mvc;
@@ -8,17 +9,17 @@ namespace GarajYeriHI.Web.Controllers
     public class VehiclePhotoController : Controller
     {
        
-        private readonly IVehiclePhotoRepository _vehiclePhotoRepo;
+     private readonly IVehiclePhotoService _vehiclePhotoService;
 
-        public VehiclePhotoController(IVehiclePhotoRepository vehiclePhotoRepo)
+        public VehiclePhotoController(IVehiclePhotoService vehiclePhotoService)
         {
-            _vehiclePhotoRepo = vehiclePhotoRepo;
+            _vehiclePhotoService = vehiclePhotoService;
         }
 
         public IActionResult Index(Guid id)
         {
          
-            return View(_vehiclePhotoRepo.GetAll(id));
+            return View(_vehiclePhotoService.GetAll(id));
         }
 
         //[HttpPost]
@@ -32,14 +33,14 @@ namespace GarajYeriHI.Web.Controllers
         [HttpPost]
         public IActionResult Delete(VehiclePhoto vehiclePhoto)
         {
-           return Ok( _vehiclePhotoRepo.Delete(vehiclePhoto));
+           return Ok( _vehiclePhotoService.Delete(vehiclePhoto.Id));
             
         }
 
         [HttpPost]
         public IActionResult Update(VehiclePhoto vehiclePhoto)
         {
-            return Ok(_vehiclePhotoRepo.Update(vehiclePhoto));
+            return Ok(_vehiclePhotoService.Update(vehiclePhoto));
         }
        
 
