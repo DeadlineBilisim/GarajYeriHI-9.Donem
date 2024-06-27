@@ -21,7 +21,7 @@ namespace GarajYeriHI.Web.Controllers
 
         public IActionResult Index()
         {
-            _vehicleRepository.Ahmet();
+          
           
             return View();
         }
